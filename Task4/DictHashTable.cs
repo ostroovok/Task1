@@ -9,26 +9,22 @@ namespace Task4
     public class DictHashTable: HashTable
     {
         private HashTable _hashTable;
-        private int size = 0;
+        public int Size { get; set; } = 0;
 
         public DictHashTable()
         {
             _hashTable = new HashTable();
         }
 
-        public override void Add(int k, int v)
+        public override void Add(int k, string v)
         {
             _hashTable.Add(k, v);
-            size++;
+            Size++;
         }
         public void Remove(int k)
         {
             _hashTable.Delete(k);
-            size--;
-        }
-        public int Size()
-        {
-            return size;
+            Size--;
         }
         public object GetElement(int k)
         {

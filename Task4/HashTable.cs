@@ -33,7 +33,7 @@ namespace Task4
         }
 
 
-        public virtual void Add(int key, int value)
+        public virtual void Add(int key, string value)
         {
             int hash = (key % _capacity);
             if (_table[hash] == null)
