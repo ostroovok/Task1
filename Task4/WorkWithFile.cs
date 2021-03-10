@@ -15,24 +15,28 @@ namespace Task4
             TextFromFile = textFromFile;
         }
 
-        public DictHashTable FindWordsOfNLen()
+        public DictHashTable FindWordsOfN()
         {
-            string[] words = TextFromFile.Split(' ');
+            string[] words = TextFromFile.Split(new string[] { "\r\n", " " }, StringSplitOptions.None);
             DictHashTable dict = new DictHashTable();
-            dict.Add(0, words[0]);
+            dict.Add(words[0].ToLower(), 1);
             for (int i = 1; i < words.Length; i++)
             {
-                
+                bool check = Find(words[i], dict);
+                if (!check)
+                    dict.Add(words[i], 1);
             }
-            return null;
+            return dict;
         }
         private bool Find(string word, DictHashTable dict)
         {
-            for (int i = 0; i < dict.Size; i++)
+            var temp = dict.GetElement(word.ToLower());
+            if (temp != null)
             {
-                if(word == )
+                temp.Value += 1;
+                return true;
             }
-            return true;
+            return false;
         }
     }
 }

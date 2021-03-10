@@ -8,11 +8,11 @@ namespace Task4
 {
     public class Chain
     {
-        public int Key { get; set; }
-        public string Value { get; set; }
+        public string Key { get; set; }
+        public int Value { get; set; }
         public Chain Next { get; set; }
 
-        public Chain(int key, string value)
+        public Chain(string key, int value)
         {
             Key = key;
             Value = value;

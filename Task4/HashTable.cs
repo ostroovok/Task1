@@ -8,8 +8,10 @@ namespace Task4
 {
     public class HashTable
     {
+        
         private readonly int _startCapacity = 16;
         private Chain[] _table;
+        private int _maxSize = 255;
         private int _capacity;
 
         public HashTable()
@@ -33,9 +35,9 @@ namespace Task4
         }
 
 
-        public virtual void Add(int key, string value)
+        public virtual void Add(string key, int value)
         {
-            int hash = (key % _capacity);
+            int hash = GetHash(key);
             if (_table[hash] == null)
             {
                 _table[hash] = new Chain(key, value);
@@ -59,9 +61,9 @@ namespace Task4
         }
 
 
-        public virtual void Delete(int key)
+        public virtual void Delete(string key)
         {
-            int hash = (key % _capacity);
+            int hash = GetHash(key);
             if (_table[hash] != null)
             {
                 Chain prevEntry = null;
@@ -84,9 +86,9 @@ namespace Task4
                 }
             }
         }
-        public virtual object Search(int key)
+        public virtual Chain Search(string key)
         {
-            int hash = (key % _capacity);
+            int hash = GetHash(key);
             if (_table[hash] == null)
                 return null;
             else
@@ -102,11 +104,10 @@ namespace Task4
                 }
                 else
                 {
-                    return entry.Value;
+                    return entry;
                 }
             }
         }
-
         public bool IsEmpty()
         {
             for (int i = 0; i < _capacity; ++i)
@@ -119,6 +120,25 @@ namespace Task4
             }
             return true;
         }
+
+        private int GetHash(string value)
+        {
+            // Проверяем входные данные на корректность.
+            if (string.IsNullOrEmpty(value))
+            {
+                throw new ArgumentNullException(nameof(value));
+            }
+
+            if (value.Length > _maxSize)
+            {
+                throw new ArgumentException($"Максимальная длинна ключа составляет {_maxSize} символов.", nameof(value));
+            }
+
+            // Получаем длину строки.
+            var hash = value.Length;
+            return hash;
+        }
+
 
         public virtual string Print()
         {
@@ -139,6 +159,24 @@ namespace Task4
             }
             description.Append(']');
             return description.ToString();
+        }
+
+        public virtual Chain[] ToArray()
+        {
+            List<Chain> list = new List<Chain>();
+            for (int i = 0; i < _capacity; i++)
+            {
+                if (_table[i] != null)
+                {
+                    Chain entry = _table[i];
+                    do
+                    {
+                        list.Add(entry);
+                        entry = entry.Next;
+                    } while (entry != null);
+                }
+            }
+            return list.ToArray();
         }
     }
 }

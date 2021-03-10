@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Task4
 {
-    public class DictHashTable: HashTable
+    public class DictHashTable: IEnumerable
     {
         private HashTable _hashTable;
         public int Size { get; set; } = 0;
@@ -16,23 +17,32 @@ namespace Task4
             _hashTable = new HashTable();
         }
 
-        public override void Add(int k, string v)
+        public void Add(string k, int v)
         {
             _hashTable.Add(k, v);
             Size++;
         }
-        public void Remove(int k)
+        public void Remove(string k)
         {
             _hashTable.Delete(k);
             Size--;
         }
-        public object GetElement(int k)
+        public Chain GetElement(string k)
         {
             return _hashTable.Search(k);
         }
-        public override string Print()
+        public string GetElementKey(string k)
+        {
+            return _hashTable.Search(k).Key;
+        }
+        public string Print()
         {
             return _hashTable.Print();
+        }
+
+        public IEnumerator GetEnumerator()
+        {
+            return _hashTable.ToArray().GetEnumerator();
         }
     }
 }
